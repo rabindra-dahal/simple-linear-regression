@@ -1,0 +1,47 @@
+# .github/workflows/ci-pipeline.yml
+name: 🚗 ML Pipeline CI Verification Suite
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # JOB 1: Test validation guards and core application parameters via pytest
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Check out repository code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Initialize Python Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip' # Automatically caches pip allocations to speed up runs
+
+      - name: 📦 Install Package Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: 🧪 Execute Automated Pytest Suite
+        run: |
+          pytest -v
+
+  # JOB 2: Ensure Docker containers build cleanly without network drops
+  validate-docker-build:
+    needs: run-unit-tests  # Only builds containers if unit tests pass first
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Check out repository code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: actions/setup-docker@v1
+
+      - name: 🐳 Build API & UI Containers via Compose
+        run: |
+          docker-compose build
