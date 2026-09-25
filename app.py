@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import requests
 import streamlit as st
+import os
 
 # 1. Page Configuration Settings
 st.set_page_config(
@@ -18,7 +19,7 @@ st.write(
 )
 
 # Network Configuration Coordinates Mapping
-API_URL = "http://127.0.0.1:8000"
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
 
 # 2. Sidebar Integration & System Health Dependency Tracker
 st.sidebar.header("System Connectivity Status")

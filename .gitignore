@@ -217,3 +217,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# Ignore python runtime caches and compilation bundles
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local virtual environments (crucial for keeping builds fast)
+venv/
+.venv/
+env/
+.env/
+
+# Ignore local operational system logs and diagnostic history tracking
+*.log
+.pytest_cache/
+.git/
+.gitignore
+
+# Ignore active OS system trash indexes
+.DS_Store
+Thumbs.db
+

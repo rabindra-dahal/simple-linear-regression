@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Backend FastAPI microservice container configuration
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: insurance_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace
+    restart: always
+
+  # Frontend Streamlit interactive visualization container configuration
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: insurance_streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+    restart: always
