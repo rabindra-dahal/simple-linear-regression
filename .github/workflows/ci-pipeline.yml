@@ -39,9 +39,9 @@ jobs:
       - name: 📥 Check out repository code
         uses: actions/checkout@v4
 
-      - name: 🛠️ Set up Docker Buildx
-        uses: actions/setup-docker@v1
-
+      # FIXED: Removed the invalid setup-docker action step.
+      # We call 'docker compose build' directly since it's native to ubuntu-latest.
+      # Pentest build configs to ensure files align seamlessly
       - name: 🐳 Build API & UI Containers via Compose
         run: |
-          docker-compose build
+          docker compose build
